@@ -1,0 +1,6 @@
+<!-- meteorology.launch.xml -->
+<launch>
+    <node pkg="meteorology_data" exec="meteorology_node" name="meteorology_node"/>
+    <node pkg="meteorology_data" exec="solar_park_node" name="solar_park_node"/>
+    <node pkg="meteorology_data" exec="bridge_data_node" name="bridge_data_node"/>
+</launch>
