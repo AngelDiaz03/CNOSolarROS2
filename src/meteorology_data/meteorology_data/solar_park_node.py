@@ -18,14 +18,11 @@ class Solar_park(Node):
         self.tmod_subscriber = self.create_subscription(Float64,"tmod_msg",self.tmod_callback,10)
         self.time_subscriber = self.create_subscription(Timestamp,"time_msg",self.time_callback,10)
 
-        self.power_msg = self.create_publisher(String,"power",10)
-        self.telemetry_msg = self.create_publisher(String,"telemetry",10)
+        self.power_ac_msg = self.create_publisher(Float64,"power_ac",10)
+        self.power_dc_msg = self.create_publisher(Float64,"power_dc",10)
 
 
         self.get_logger().info("solar park node started")
-
-        self.create_timer(1.0, self.send_power_data)
-        self.create_timer(1.0, self.send_telemetry_data)
 
         self.create_timer(3.0, self.test_callback)
         
@@ -42,8 +39,9 @@ class Solar_park(Node):
         df = pd.DataFrame(data, index=index)
         availability = None
         energy_units = 'Wh'
-        variable = cno.pipeline.run(system_configuration, df, availability, energy_units)
-        self.get_logger().info(str(variable['inverter1']['p_dc']))
+        self.output_data = cno.pipeline.run(system_configuration, df, availability, energy_units)
+        self.send_power_dc_data()
+        self.send_power_ac_data()
 
     def GHI_callback(self, msg: Float64):
         self.GHI = msg.data
@@ -61,14 +59,14 @@ class Solar_park(Node):
         self.timestamp = pd.to_datetime(msg.unix_time_ns, unit='ns')
         self.timestamp = self.timestamp.tz_localize(msg.time_zone)
 
-    def send_power_data(self): #publish radiation in the most coviniend format 
-        msg = String()
-        msg.data = "Power"
-        self.power_msg.publish(msg)
-    def send_telemetry_data(self): #publish radiation in the most coviniend format 
-        msg = String()
-        msg.data = "Telemetry"
-        self.telemetry_msg.publish(msg) 
+    def send_power_dc_data(self): #publish radiation in the most coviniend format 
+        msg = Float64()
+        msg.data = self.output_data['inverter1']['p_dc'].values[0]
+        self.power_dc_msg.publish(msg)
+    def send_power_ac_data(self): #publish radiation in the most coviniend format 
+        msg = Float64()
+        msg.data = self.output_data['inverter1']['ac'].values[0]
+        self.power_ac_msg.publish(msg) 
 
 def main(args=None):
     rclpy.init(args=args)

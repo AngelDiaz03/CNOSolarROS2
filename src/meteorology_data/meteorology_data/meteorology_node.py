@@ -40,19 +40,19 @@ class Meteorology(Node):
         if self.count >= self.data_file.size:
             self.count = 0
 
-    def send_GHI_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_GHI_data(self,data:Float64 = 0.0): 
         self.GHI_msg.publish(data)
 
-    def send_POA_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_POA_data(self,data:Float64 = 0.0): 
         self.POA_msg.publish(data)
 
-    def send_tamb_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_tamb_data(self,data:Float64 = 0.0):  
         self.tamb_msg.publish(data)
 
-    def send_tmod_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_tmod_data(self,data:Float64 = 0.0): 
         self.tmod_msg.publish(data)
 
-    def send_time_stamp_data(self,data:Timestamp): #publish radiation in the most coviniend format 
+    def send_time_stamp_data(self,data:Timestamp): 
         self.time_msg.publish(data)
         
 
