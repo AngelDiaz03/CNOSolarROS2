@@ -19,7 +19,7 @@ class Meteorology(Node):
 
         self.get_logger().info("Meteorology node started")
 
-        self.create_timer(1.0, self.get_data)
+        self.create_timer(0.09, self.get_data)
         self.count = 0
 
     def get_data(self): # take meteorology data from the repository
