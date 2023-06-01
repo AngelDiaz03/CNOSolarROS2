@@ -127,8 +127,7 @@ def run(system_configuration, data, availability, energy_units):
     '''
     bus_pipeline = {}
     num_systems = len(system_configuration)
-    
-    resolution = 5#data.index.to_series().diff().median().total_seconds()/60
+    resolution = data.index.to_series().diff().median().total_seconds()/60
     
     if availability == None:
         inv_availability = list(np.repeat(1, num_systems))
@@ -136,7 +135,7 @@ def run(system_configuration, data, availability, energy_units):
         inv_availability = availability
 
     for j in tqdm(range(num_systems), desc='Sistema/Inversor (.JSON)', leave=False):
-        sc = system_configuration
+        sc = system_configuration[j]
         num_subarrays = sc['num_arrays']
         
         # Check Single-Diode Parameters

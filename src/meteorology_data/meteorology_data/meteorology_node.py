@@ -4,7 +4,6 @@ from rclpy.node import Node
 from std_msgs.msg import Float64
 from interfaces.msg import Timestamp
 import cnsolar as cno 
-import datetime
 class Meteorology(Node):
 
     def __init__(self):
@@ -19,7 +18,7 @@ class Meteorology(Node):
 
         self.get_logger().info("Meteorology node started")
 
-        self.create_timer(1.0, self.get_data)
+        self.create_timer(0.09, self.get_data)
         self.count = 0
 
     def get_data(self): # take meteorology data from the repository
@@ -40,19 +39,19 @@ class Meteorology(Node):
         if self.count >= self.data_file.size:
             self.count = 0
 
-    def send_GHI_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_GHI_data(self,data:Float64 = 0.0): 
         self.GHI_msg.publish(data)
 
-    def send_POA_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_POA_data(self,data:Float64 = 0.0): 
         self.POA_msg.publish(data)
 
-    def send_tamb_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_tamb_data(self,data:Float64 = 0.0):  
         self.tamb_msg.publish(data)
 
-    def send_tmod_data(self,data:Float64 = 0.0): #publish radiation in the most coviniend format 
+    def send_tmod_data(self,data:Float64 = 0.0): 
         self.tmod_msg.publish(data)
 
-    def send_time_stamp_data(self,data:Timestamp): #publish radiation in the most coviniend format 
+    def send_time_stamp_data(self,data:Timestamp): 
         self.time_msg.publish(data)
         
 
