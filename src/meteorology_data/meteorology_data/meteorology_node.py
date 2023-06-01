@@ -4,7 +4,6 @@ from rclpy.node import Node
 from std_msgs.msg import Float64
 from interfaces.msg import Timestamp
 import cnsolar as cno 
-import datetime
 class Meteorology(Node):
 
     def __init__(self):

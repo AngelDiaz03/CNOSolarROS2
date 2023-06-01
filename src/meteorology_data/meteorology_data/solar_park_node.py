@@ -25,7 +25,7 @@ class Solar_park(Node):
 
         self.create_timer(0.1, self.test_callback)
         
-        with open('src/cnsolar/resource/system_config_sd_29.json') as f:
+        with open('src/cnsolar/resource/system_config_sd_51.json') as f:
             self.json_str = json.load(f)
         self.system_configuration = {}
         self.GHI_flag = False 
@@ -46,7 +46,7 @@ class Solar_park(Node):
             availability = None
             energy_units = 'Wh'
             self.output_data = cno.pipeline.run(self.system_configuration, df, availability, energy_units)
-            #self.get_logger().info(str(self.output_data['plant'].keys()))
+            self.get_logger().info(str(self.output_data['plant']))
             self.send_power_dc_data()
             self.send_power_ac_data()
             self.GHI_flag = False 
