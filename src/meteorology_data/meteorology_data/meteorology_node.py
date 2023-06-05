@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node 
 from std_msgs.msg import Float64
 from interfaces.msg import Timestamp
 import cnsolar as cno 
+
 class Meteorology(Node):
 
     def __init__(self):
         super().__init__("meteorology_node")
+        # Publishers
         self.GHI_msg = self.create_publisher(Float64,"GHI_msg",10)
         self.POA_msg = self.create_publisher(Float64,"POA_msg",10)
         self.tamb_msg = self.create_publisher(Float64,"tamb_msg",10)
         self.tmod_msg = self.create_publisher(Float64,"tmod_msg",10)
         self.time_msg = self.create_publisher(Timestamp,"time_msg",10)
-
-        self.data_file = cno.data.load_csv("src/meteorology_data/resource/data_effective.csv",None)
-
+        # Initialization
+        self.data_file = cno.data.load_csv("src/meteorology_data/resource/data_effective.csv",
+                                           None)
         self.get_logger().info("Meteorology node started")
-
         self.create_timer(0.09, self.get_data)
         self.count = 0
 

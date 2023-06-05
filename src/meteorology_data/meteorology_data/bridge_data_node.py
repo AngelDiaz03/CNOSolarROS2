@@ -10,11 +10,20 @@ class Bridge_data(Node):
 
     def __init__(self):
         super().__init__("bridge_data_node")
-
-        self.power_dc_subscriber = self.create_subscription(Float64,"power_ac",self.power_ac_callback,10)
-        self.power_ac_subscriber = self.create_subscription(Float64,"power_dc",self.power_dc_callback,10)
-        self.time_subscriber = self.create_subscription(Timestamp,"time_msg",self.time_callback,10)
-
+        # Subscribers
+        self.power_dc_subscriber = self.create_subscription(Float64,
+                                                            "power_ac",
+                                                            self.power_ac_callback,
+                                                            10)
+        self.power_ac_subscriber = self.create_subscription(Float64,
+                                                            "power_dc",
+                                                            self.power_dc_callback,
+                                                            10)
+        self.time_subscriber = self.create_subscription(Timestamp,
+                                                        "time_msg",
+                                                        self.time_callback,
+                                                        10)
+        # Initialization
         self.power_dc_data = []
         self.power_ac_data = []
         self.time_data = []
@@ -35,8 +44,10 @@ class Bridge_data(Node):
 
     def plot_values(self):
         self.ax.clear()
-        self.ax.plot(self.time_data[0:len(self.power_ac_data)], self.power_ac_data, label = 'power AC')
-        self.ax.plot(self.time_data[0:len(self.power_dc_data)], self.power_dc_data, label = 'power DC')
+        self.ax.plot(self.time_data[0:len(self.power_ac_data)], 
+                     self.power_ac_data, label = 'power AC')
+        self.ax.plot(self.time_data[0:len(self.power_dc_data)], 
+                     self.power_dc_data, label = 'power DC')
         self.ax.legend()
         self.ax.set_xlabel('Date time')
         self.ax.set_ylabel('Power [W]')
