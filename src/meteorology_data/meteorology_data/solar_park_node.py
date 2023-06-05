@@ -42,7 +42,7 @@ class Solar_park(Node):
                                                   10)
         # Initialization
         self.get_logger().info("solar park node started")
-        self.create_timer(0.1, self.test_callback)
+        self.create_timer(0.1, self.pipeline_callback)
         with open('src/cnsolar/resource/system_config_sd_51.json') as f:
             self.json_str = json.load(f)
         self.system_configuration = {}
@@ -52,7 +52,7 @@ class Solar_park(Node):
         self.tmod_flag = False 
         self.time_flag = False 
 
-    def test_callback(self):
+    def pipeline_callback(self):
         if self.GHI_flag and self.POA_flag and \
                              self.tamb_flag and \
                              self.tmod_flag and \
